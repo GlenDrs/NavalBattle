@@ -56,14 +56,18 @@ class Fighting:
                 index = index + 1; print("    ")
 
 
-    def check_win(self, player):
-        if self.succes == True:
-            print(" "); print("*********************"); print(" ")
-            print("CONGRATS "+player+" YOU WON!!!"); print(" "); print("*********************")
+    def check_win(func):
+        def inner(self,name):
+            if self.succes == True:
+                print(" "); print("*********************"); print(" ")
+                print("CONGRATS "+name+" YOU WON!!!"); print(" "); print("*********************")
+
+            func(self)
+        return inner
 
 
-    def adjust_screen(self, name):
-        self.check_win(name)
+    @check_win
+    def adjust_screen(self):
         clear_screen = input(" Press 'h' to hide your game and to continu ")
         while clear_screen != 'h':
             clear_screen = input(" Press 'h' to hide your game and to continu ")

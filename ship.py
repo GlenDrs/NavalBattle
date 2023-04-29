@@ -60,10 +60,9 @@ class Ship:
 
     def create_ships(self,):
 
-
         for player in [self.player1, self.player2]:
             print("_____________________"); print("Hi "+player.name+" you can start creating your three ships"); print("_____________________");
-            for n in range(1,3):
+            for n in range(1,4):
                 k = n -1
                 while k < n:
                     begining_ship_x =  InteractConditions(player.name, n).coordinate_conditions(self.dimention_game, 1, "of the begining of yur ship "+str(n)+": ")

@@ -4,6 +4,8 @@ class DetectDestrutedShip:
     def __init__(self, playr_name, player_grid):
         self.player_name = playr_name
         self.player_gride = player_grid
+
+
     def check(self,coord_h):
         limit = 3
         player_h = coord_h[self.player_name]
@@ -28,7 +30,3 @@ class DetectDestrutedShip:
                 if  count_vertical == (k+1)*2 +1:
                     print("You have destroyd the ship number "+str(ship_nb)+ " of your enemy!")
                     print("  *[*]*    *[*]*    *[*]*   ")
-
-
-    def signal_destruction(self):
-        pass

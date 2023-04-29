@@ -2,16 +2,24 @@ from string import ascii_uppercase as letters
 
 class Game:
 
-    def start_game():    
-        global name, name2, choice
+    def first_player(func):
+        def inner():
+            global name, choice
+            print("Hi, welcom to Ship batle game, please choose your name and the dimention of the game!")
+            name = input("What is you name player 1: ")
+            dimention = input(" Welcome "+name+", you're the first player, the first player have the right to chose the dimention of the game \n what's the dimention of the game that you want to play? \n press 1 if you want a 8 x 8 dimention game \n press 2 if you want a  16 x 16 game\n press 3 if you want a  26 x 26 game\n ")
+            choice = int(dimention)
+            while choice != 1 and choice != 2 and choice != 3:
+                choice = int(input(" Wrong choice. you can only press 1, 2 or 3. \n press 1 if you want a 8 x 8 dimention game \n press 2 if you want a  16 x 16 game \n press 3 if you want a  26 x 26 game\n "))
 
-        print("Hi, welcom to Ship batle game, please choose your name and the dimention of the game!")
-        name = input("What is you name player 1: ")
-        dimention = input(" Welcome "+name+", you're the first player, the first player have the right to chose the dimention of the game \n what's the dimention of the game that you want to play? \n press 1 if you want a 8 x 8 dimention game \n press 2 if you want a  16 x 16 game\n press 3 if you want a  26 x 26 game\n ")
-        choice = int(dimention)
-        while choice != 1 and choice != 2 and choice != 3:
-            choice = int(input(" Wrong choice. you can only press 1, 2 or 3. \n press 1 if you want a 8 x 8 dimention game \n press 2 if you want a  16 x 16 game \n press 3 if you want a  26 x 26 game\n "))
+            func()
 
+        return inner
+
+
+    @first_player
+    def start_game():
+        global name2
         print("The second player turn now.")
         print(' ')
         name2 = input("Hello the player 2, what's your name? ")
@@ -34,11 +42,20 @@ class Game:
         return [name, name2]
 
 
+    def decorator_game_board(func):
+        def inner(dim):
+            print(" ")
+            print(" Hi this will be the Ship Batle game board!")
+            print(" ")
+
+            func(dim)
+
+        return inner
+
+    @decorator_game_board
     def show_game_board(dim):
-        print(" ")
-        print(" Hi this will be the Ship Batle game board!")
-        print(" ")
-        show_grid, a_f = [['\x1b[34m(:)\x1b[0m'] * dim for i in range(dim)], list(letters[:dim])
+        show_grid = [['\x1b[34m(:)\x1b[0m'] * dim for i in range(dim)]
+        a_f = list(letters[:dim])
         print("     " + "   ".join(a_f))
         for index, row in enumerate(show_grid):
             print(" ", (a_f[index]), end = " ")
