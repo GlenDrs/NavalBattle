@@ -1,28 +1,44 @@
 from interact_conditions import InteractConditions
 from game import Game
+from coordinates_ships import CoordinatesOfShips
 import os, time
 
 class Ship:
     def __init__(self, player1, player2, dimention_game):
-            self.player1 = player1
-            self.player2 = player2
-            self.dimention_game = dimention_game
-            self.ship_start, self.ship_end  = [], []
-
+        self.player1 = player1
+        self.player2 = player2
+        self.dimention_game = dimention_game
+        self.ship_start, self.ship_end  = [], []
+        self.coordinates_ships_plr1 = {
+            'ship_nb': [],
+            'horizontal': [],
+            'start_x': [],
+            'start_y': [],
+            'end_x': [],
+            'end_y': []
+        }
+        self.coordinates_ships_plr2 = {
+            'ship_nb': [],
+            'horizontal': [],
+            'start_x': [],
+            'start_y': [],
+            'end_x': [],
+            'end_y': []
+        }
 
     def creat_ship(self, grid):
         try:
             #building a horizontal ship
             if self.ship_start[0] == self.ship_end[0]:
                 for j in range(self.ship_start[1],(self.ship_end[1]+1)):
-                    # Avoiding ships to be placed on top of each other!
+                    # Avoiding the deployment of the ship on top of an existing ship!
                     if grid[self.ship_start[0]][j] == "\033[1;32;40m[O]":
                         raise ValueError
                     grid[self.ship_start[0]][j] = "\033[1;32;40m[O]"
             #building a vertical ship
             elif self.ship_start[1] == self.ship_end[1]:
                 for k in range((self.ship_start[0]),self.ship_end[0]+1):
-                    # Avoiding ships to be placed on top of each other!
+                    # Avoiding the deployment of the ship on top of an existing ship!
                     if grid[k][self.ship_end[1]] == "\033[1;32;40m[O]":
                         raise ValueError
                     grid[k][self.ship_end[1]] = "\033[1;32;40m[O]"
@@ -42,12 +58,12 @@ class Ship:
             os.system('clear')
 
 
-
     def create_ships(self,):
+
 
         for player in [self.player1, self.player2]:
             print("_____________________"); print("Hi "+player.name+" you can start creating your three ships"); print("_____________________");
-            for n in range(1,4):
+            for n in range(1,3):
                 k = n -1
                 while k < n:
                     begining_ship_x =  InteractConditions(player.name, n).coordinate_conditions(self.dimention_game, 1, "of the begining of yur ship "+str(n)+": ")
@@ -76,5 +92,11 @@ class Ship:
                         k = n -1; self.ship_start, self.ship_end = [], []
                         continue
                     k = n
+                    if player == self.player1:
+                        x = CoordinatesOfShips().coordinate_n(self.coordinates_ships_plr1,n,begining_ship_x,begining_ship_y,end_ship_x,end_ship_y)
+                    else:
+                        y = CoordinatesOfShips().coordinate_n(self.coordinates_ships_plr2,n,begining_ship_x,begining_ship_y, end_ship_x, end_ship_y)
                     self.ship_start, self.ship_end = [], []
             self.clear_screen(n, player.name, player.grid)
+
+        return {self.player1.name: x, self.player2.name: y}

@@ -3,13 +3,15 @@ from attack import Attack
 from string import ascii_uppercase as letters
 from interact_conditions import InteractConditions
 from game import Game
+from detect_destruction import DetectDestrutedShip
 
 
 class Fighting:
-    def __init__(self, gamer1, gamer2, dimention):
+    def __init__(self, gamer1, gamer2, dimention, coordinates_ship):
         self.gamer1 = gamer1
         self.gamer2 = gamer2
         self.dimention = dimention
+        self.coordinates_ship = coordinates_ship
         self.missile_coordinate = []
         self.succes = False
 
@@ -79,11 +81,13 @@ class Fighting:
                     xy_show[index] = []
                 else:
                     Game.show_game_board(self.dimention)
+
                 for j in range(1,3):
                     ele = InteractConditions(hit.name, j).coordinate_conditions(self.dimention, j,"of your missile attack:")
                     self.missile_coordinate.append(ele)
 
                 xy[index] = Attack(hit.grid, self.missile_coordinate).result_attack()
+                DetectDestrutedShip(hit.name, hit.grid).check(self.coordinates_ship)
                 self.show_ennemy_grid(xy[index], xy_show[index])
                 xy_show[index] = []
 

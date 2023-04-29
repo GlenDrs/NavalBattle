@@ -3,7 +3,7 @@ class InteractConditions:
     def __init__(self, name_player, integer):
         self.name_player = name_player
         self.integer = integer
-        self.add_value = 0
+        self.add_value = integer * 2
 
 
     def coordinate_conditions(self, dimention, coord_nb, phrase):
@@ -19,7 +19,6 @@ class InteractConditions:
 
 
     def ship_conditions(self, x1, y1, x2, y2):
-        self.add_value = 2 * self.integer
         return self.ship_width(x1,y1,x2,y2)
 
 
@@ -38,7 +37,7 @@ class InteractConditions:
                 y2= ord(input("Give the second coordinate of your ship: "))-65
             return y2
         while y2 != y1+ self.add_value:
-            print("Erreur! Attention "+self.name_player+ " it is possible that your coordinate might be " +chr(y1+self.add_value+65)+ ". Because he width of Ship "+str(self.integer)+" must be "+str(self.add_value+1)+" units ")
+            print("Erreur! Attention "+self.name_player+ " it is possible that your coordinate might be " +chr(y1+self.add_value+65)+ ". Because he width of Ship "+str(self.integer)+" must be "+str(self.add_value + 1)+" units ")
             y2 = ord(input("Give the second coordinate of the end of your ship: ")) - 65
         return y2
 
@@ -50,8 +49,8 @@ class InteractConditions:
         '''
         if x2 == x1:
             return x2
-        while x2 != self.integer * 2:
-            print("Erreur! Attention "+self.name_player+ " it is possible that your coordinate might be " +chr(x1 + self.integer * 2 + 65)+ ". Because the vertical length of Ship "+str(self.integer)+" must be three units ")
+        while x2 != x1 + self.add_value:
+            print("Erreur! Attention "+self.name_player+ " it is possible that your coordinate might be " +chr(x1 + self.add_value + 65)+ ". Because the vertical length of Ship "+str(self.integer)+" must be "+ str(self.add_value + 1)+" units ")
             x2 = ord(input("Give the first coordinate of the end of your ship: ")) - 65
 
         return x2
